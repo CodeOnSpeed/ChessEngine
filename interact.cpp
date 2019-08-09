@@ -1,5 +1,4 @@
 #include <chrono>               //For timing
-#define TIME_TYPE long long int
 
 #define OUTPUT(board);\
 printf("-------------------------\n");\
