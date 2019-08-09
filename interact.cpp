@@ -1,7 +1,6 @@
 #include <chrono>               //For timing
 #define TIME_TYPE long long int
 
-namespace testing {
 #define OUTPUT(board);\
 printf("-------------------------\n");\
 for (int r = 0; r != 8; r++) {\
@@ -32,6 +31,13 @@ for (int r = 0; r != 8; r++) {\
 	auto sto = std::chrono::high_resolution_clock::now();\
 	time[ind] -= std::chrono::duration_cast<std::chrono::nanoseconds>(sto - sta).count();\
 	copy_board(board, new_board);
+
+namespace testing {
+	char getchar_() {
+		char c;
+		while ((c = getchar()) == (char)10) {}
+		return c;
+	}
 
 	//Lässt zwei eval-Versionen gegeneinandr antreten
 	inline unsigned* versus(unsigned games, TIME_TYPE t) {
