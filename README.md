@@ -1,1 +1,1 @@
-"Fastest Engine in the world" 
+Open source chess engine
