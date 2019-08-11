@@ -598,6 +598,11 @@ EVAL_TYPE fast_eval(BOARD b) {
     return std::numeric_limit<EVAL_TYPE>::min();
   if(__builtin_popcount(b.king_black)==0)
     return std::numeric_limit<EVAL_TYPE>::max();
+
+  char num_queens =__builtin_popcount(b.queen_white & b.queen_black);
+  BITBOARD king_area_white = area<true>(b.king_white);
+  BITBOARD king_area_black = area<true>(b.king_black);
+
   EVAL_TYPE mat=1*(__builtin_popcount(b.pawn_white)\
                   -__builtin_popcount(b.pawn_black))\
                +3*(__builtin_popcount(b.bishop_white)\
@@ -608,4 +613,25 @@ EVAL_TYPE fast_eval(BOARD b) {
                   -__builtin_popcount(b.rook_black))\
                +8*(__builtin_popcount(b.queen_white)\
                   -__builtin_popcount(b.queen_black));
+  mat *= MATERIAL; 
+
+  EVAL_TYPE paw = b.pawn_protec;
+  BITBOARD pawn_unified = b.pawn_white | b.pawn_black;
+  if(num_queens){//Not endgame: Pawns should be in the center
+    paw += __builtin_popcount(center<true>(b.queen_white))\
+          +__builtin_popcount(center<false>(b.queen_white))\
+          -__builtin_popcount(center<true>(b.queen_black))\
+          -__builtin_popcount(center<false>(b.queen_black)); 
+    
+  } else {//Endgame: King should protect/attack as much pawns as possible, passed pawns are very good
+    paw += __builtin_popcount(king_area_white&pawn_unified);
+    paw -= __builtin_popcount(king_area_black&pawn_unified);
+
+    for(char i=1; i<=8; i++){
+      char col = colum<i>(pawn_unified);
+      paw += col&pawn_white;
+      paw -= col&pawn_black;
+    }
+  }
+  
 }
