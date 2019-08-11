@@ -656,5 +656,10 @@ EVAL_TYPE fast_eval(BOARD b) {
       tmp -= __builtin_popcount(column<i>(b.rook_black));
     }
   }
+  ret += tmp*OPENLINE;
+
+  //Knight
   
+
+
 }
