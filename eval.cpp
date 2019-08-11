@@ -591,3 +591,21 @@ int eval(char *feld /*protec*/){
   //printf("%i\n", aq);
   return aq;
 }
+
+
+EVAL_TYPE fast_eval(BOARD b) {
+  if(__builtin_popcount(b.king_white)==0)
+    return std::numeric_limit<EVAL_TYPE>::min();
+  if(__builtin_popcount(b.king_black)==0)
+    return std::numeric_limit<EVAL_TYPE>::max();
+  EVAL_TYPE mat=1*(__builtin_popcount(b.pawn_white)\
+                  -__builtin_popcount(b.pawn_black))\
+               +3*(__builtin_popcount(b.bishop_white)\
+                  +__builtin_popcount(b.knight_white)\
+                  -__builtin_popcount(b.bishop_black)\
+                  -__builtin_popcount(b.knight_black))\
+               +5*(__builtin_popcount(b.rook_white)\
+                  -__builtin_popcount(b.rook_black))\
+               +8*(__builtin_popcount(b.queen_white)\
+                  -__builtin_popcount(b.queen_black));
+}
