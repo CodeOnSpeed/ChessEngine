@@ -659,7 +659,19 @@ EVAL_TYPE fast_eval(BOARD b) {
   ret += tmp*OPENLINE;
 
   //Knight
-  
+  /*A knight is good, if
+      - it is protected by a pawn
+      - it is not attacked by a pawn
+  */
 
+  tmp = __builtin_popcount(\
+           (shift<LEFT+UP>(b.pawn_white)\
+           | shift<RIGHT+UP>(b.pawn_white))\
+        & b.knight_black
+        & ~(shift<LEFT+DOWN>(b.pawn_black)\
+           | shift<RIGHT+DOWN>(b.pawn_black))\
+        );
+
+   ret += tmp*KNIGHT_STRENGHT;
 
 }
