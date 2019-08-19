@@ -1,3 +1,4 @@
+#pragma once
 #include <chrono>               //For timing
 
 #define OUTPUT(board);\

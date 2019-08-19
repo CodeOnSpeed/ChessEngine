@@ -1,3 +1,4 @@
+#pragma once
 char *moves_bishop(char *feld, char f, bool is){
   char *res = (char *) malloc(sizeof(char) * 32);
   for(int i = 0; i < 32; i++){
